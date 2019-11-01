@@ -2,7 +2,7 @@
 
 ### 프로젝트 설명(Project Description)
 
-- Observers, Disposals, Operators, Flatmap Op, Create/Just/Range/Repeat Operator, Buffer Operator
+- Observers, Disposals, Operators, Create/Just/Range/Repeat Operator, Buffer Operator
   Debounce Operator, Throttle First Operator, ConcatMap Operator 사용해보기
 
 ### 프로젝트 구성(Project Composition)
