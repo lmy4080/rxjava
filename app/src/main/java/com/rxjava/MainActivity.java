@@ -14,7 +14,9 @@ import android.widget.TextView;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     // ui
     private TextView text;
+
+    // vars
+    private CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSubscribe(Disposable d) {
                 Log.d(TAG, "onSubscribe: called.");
+                disposable.add(d);
             }
 
             @Override
@@ -73,5 +79,19 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onComplete: called.");
             }
         });
+
+        disposable.add(taskObservable.subscribe(new Consumer<Task>() {
+            @Override
+            public void accept(Task task) throws Exception {
+
+            }
+        }));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        disposable.clear(); // remove all of the subscribers without basically disabling the observable
+        //disposable.dispose(); // hard clear
     }
 }
